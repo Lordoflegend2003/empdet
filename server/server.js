@@ -1,19 +1,34 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
+require('dotenv').config();
+const port = process.env.PORT || 8081 ;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
+
+
 const pool = new Pool({
-  user: 'postgres', 
-  host: 'localhost',
-  database: 'emp',
-  password: 'pawan@2003', 
-  port: 5432, 
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
 });
+
+
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack);
+  }
+  console.log('Connected successfully with the db');
+  release();
+});
+
+
 
 
 app.get('/', async (req, res) => {
@@ -79,6 +94,6 @@ app.delete('/:num', (req, res) => {
   });
 });
 
-app.listen(8081, () => {
-  console.log('Listening on port 8081...');
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });

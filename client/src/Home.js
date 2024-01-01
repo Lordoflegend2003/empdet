@@ -11,11 +11,12 @@ function Home() {
     const [empid, setEmpid] = useState('')
     const [empsalary, setEmpsalary] = useState('')
 
+
     const navigate=useNavigate();
     const handleSubmit = (event) =>{
         console.log(empname , empnum , empid , empsalary);
         event.preventDefault();
-        axios.post('http://localhost:8081/',{empid , empname , empnum , empsalary})
+        axios.post(process.env.REACT_APP_BACKEND_URL,{empid , empname , empnum , empsalary})
         .then(res =>{
             navigate('/');
         }).catch(err => console.log(err));
@@ -23,12 +24,12 @@ function Home() {
 
     const [data,setData]=useState([]);
     useEffect(()=>{
-        axios.get('http://localhost:8081/')
+        axios.get(process.env.REACT_APP_BACKEND_URL)
         .then(res => setData(res.data))
         .catch(err => console.log(err));   
     })
     const handleDelete=(empnum)=>{
-        axios.delete('http://localhost:8081/'+ empnum)
+        axios.delete(process.env.REACT_APP_BACKEND_URL + empnum)
         .then(res => navigate('/'))
         .catch(err => console.log(err));
     }

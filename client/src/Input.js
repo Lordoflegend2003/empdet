@@ -10,16 +10,12 @@ const Input = ({ emp }) => {
   const handleSubmit = async (e) => {
     // e.preventDefault();
     try {
-      const body = { empname, empnum, empsalary };
-      // Assuming the URL is passed as a prop named 'url'
-      const response = await fetch("http://localhost:8081/:empnum", {
+      const body = { empname, empnum, empsalary};
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
-      // After successful update, update the UI or redirect as required
-      // For example, you can close the modal or reset the form fields
     } catch (err) {
       console.error(err.message);
     }
